@@ -1,0 +1,42 @@
+type User {
+  id: ID! @id
+  password: String!
+  firstName: String!
+  lastName: String!
+  email: String! @unique
+  profilePictureUrl: String
+  posts: [Post]
+}
+
+type ReviewStatus {
+  id: ID! @id
+  reviewer: User!
+  isReviewComplete: Boolean! @default(value: false)
+}
+
+type Comment {
+  id: ID! @id
+  comment: String!
+  createdBy: User!
+  createdAt: DateTime! @createdAt
+  post: Post!
+}
+
+type Like {
+  id: ID! @id
+  like: Boolean @default(value: false)
+  createdBy: User!
+  createdAt: DateTime! @createdAt
+  post: Post!
+}
+
+type Post {
+  id: ID! @id
+  question: String!
+  createdBy: User!
+  createdAt: DateTime! @createdAt
+  isComplete: Boolean! @default(value: false)
+  reviewers: [ReviewStatus]
+  comments: [Comment]
+  likes: [Like]
+}
