@@ -1,14 +1,17 @@
 type Query {
-  hello: [User]
+  getAllUsers: [User]
+  getAllPosts: [Post]
+  getUserByID(userID: String!): User
+  getUserByEmail(email: String!): User
 }
 
 type Mutation {
-  createUser(input: UserInput): User
+  createUser(input: UserInput!): User!
+  createPost(input: PostInput!): Post!
 }
 
 type User {
-  id: Int
-  username: String!
+  id: ID!
   firstName: String!
   lastName: String!
   email: String!
@@ -16,60 +19,59 @@ type User {
   posts: [Post!]
 }
 
-input UserInput {
-  username: String!
-  firstName: String!
-  lastName: String!
-  email: String!
-  profilePictureUrl: String
-  posts: [PostInput!]
-}
-type ReviewStatus {
+type ReviewerStatus {
   reviewer: User!
   isReviewComplete: Boolean!
 }
 
-type Comment implements TimeAndUserInfo {
-  id: Int
+type Comment {
+  id: ID!
   comment: String
-  isComplete: Boolean
   createdBy: User!
   createdAt: String
   post: Post!
 }
 
-type Like implements TimeAndUserInfo {
-  id: Int
+type Like {
+  id: ID!
   like: Boolean
-  isComplete: Boolean
   createdBy: User!
   createdAt: String
   post: Post!
 }
 
-type Post implements TimeAndUserInfo {
-  id: Int
+type Post {
+  id: ID!
   question: String!
   isComplete: Boolean
   createdBy: User!
   createdAt: String
-  reviewers: [ReviewStatus!]!
+  reviewers: [ReviewerStatus!]!
   comments: [Comment!]
   likes: [Like!]
 }
 
-input PostInput implements TimeAndUserInfo {
-  id: Int
+input UserInput {
+  firstName: String!
+  lastName: String!
+  email: String!
+  password: String!
+  profilePictureUrl: String
+}
+
+input PostInput {
   question: String!
-  isComplete: Boolean
-  createdBy: User!
-  createdAt: String
-  reviewers: [ReviewStatus!]!
-  comments: [Comment!]
-  likes: [Like!]
+  reviewers: [ReviewerInput!]!
 }
 
-interface TimeAndUserInfo {
-  createdBy: User!
-  createdAt: String
+input ReviewerInput {
+  reviewerID: ID!
+}
+
+input CommentInput {
+  comment: String
+}
+
+input LikeInput {
+  like: Boolean
 }

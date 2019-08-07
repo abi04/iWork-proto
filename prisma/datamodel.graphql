@@ -5,7 +5,6 @@ type User {
   lastName: String!
   email: String! @unique
   profilePictureUrl: String
-  posts: [Post]
 }
 
 type ReviewStatus {
@@ -36,7 +35,7 @@ type Post {
   createdBy: User!
   createdAt: DateTime! @createdAt
   isComplete: Boolean! @default(value: false)
-  reviewers: [ReviewStatus]
+  reviewers: [ReviewStatus!]!
   comments: [Comment]
   likes: [Like]
 }

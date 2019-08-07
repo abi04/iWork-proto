@@ -1,6 +1,28 @@
 const { prisma } = require('../../generated/prisma-client');
 
-function hello() {
-  return prisma.users;
+async function getAllUsers() {
+  return prisma.users();
 }
-module.exports = { hello };
+
+async function getAllPosts() {
+  return prisma.posts();
+}
+
+async function getUserByID(_parent, args) {
+  return prisma.user({
+    id: `${args.userID}`
+  });
+}
+
+async function getUserByEmail(_parent, args) {
+  return prisma.user({
+    id: `${args.email}`
+  });
+}
+
+module.exports = {
+  getAllUsers,
+  getAllPosts,
+  getUserByID,
+  getUserByEmail
+};
