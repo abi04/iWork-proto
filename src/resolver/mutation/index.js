@@ -20,8 +20,6 @@ async function createPost(_parent, args, context) {
     };
   });
 
-  console.log(createReviewerStatus);
-
   return prisma.createPost({
     question,
     createdBy: {
@@ -33,7 +31,43 @@ async function createPost(_parent, args, context) {
   });
 }
 
+async function createLike(_parent, args, context) {
+  const { like, postID } = args.input;
+  return prisma.createLike({
+    like,
+    createdBy: {
+      connect: {
+        id: context.user.id
+      }
+    },
+    post: {
+      connect: {
+        id: postID
+      }
+    }
+  });
+}
+
+async function createComment(_parent, args, context) {
+  const { comment, postID } = args.input;
+  return prisma.createComment({
+    comment,
+    createdBy: {
+      connect: {
+        id: context.user.id
+      }
+    },
+    post: {
+      connect: {
+        id: postID
+      }
+    }
+  });
+}
+
 module.exports = {
   createUser,
-  createPost
+  createPost,
+  createLike,
+  createComment
 };

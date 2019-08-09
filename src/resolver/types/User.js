@@ -8,6 +8,15 @@ const posts = parent => {
   });
 };
 
+const postNotification = parent => {
+  return prisma.reviewStatuses({
+    where: {
+      reviewer: parent.userID
+    }
+  });
+};
+
 module.exports = {
-  posts
+  posts,
+  postNotification
 };

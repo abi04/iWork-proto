@@ -5,12 +5,15 @@ type User {
   lastName: String!
   email: String! @unique
   profilePictureUrl: String
+  posts: [Post]
+  postNotification: [ReviewStatus!]
 }
 
 type ReviewStatus {
   id: ID! @id
   reviewer: User!
   isReviewComplete: Boolean! @default(value: false)
+  post: Post!
 }
 
 type Comment {
