@@ -1,21 +1,25 @@
 const { ApolloServer } = require('apollo-server');
 const { importSchema } = require('graphql-import');
+const { makeExecutableSchema } = require('graphql-tools');
 const { prisma } = require('./generated/prisma-client');
 
 const typeDefs = importSchema('./graphQL/schema.graphql');
 const Query = require('./resolver/query/index');
 const Mutation = require('./resolver/mutation/index');
-const User = require('./resolver/types/User');
 const Post = require('./resolver/types/Post');
+const Comment = require('./resolver/types/Comment');
+const Like = require('./resolver/types/Like');
 const ReviewerStatus = require('./resolver/types/ReviewerStatus');
+const RelativeTimeDirective = require('./directives/RelativeTimeDirective');
 
 // A map of functions which return data for the schema.
 const resolvers = {
   Query,
   Mutation,
-  User,
   Post,
-  ReviewerStatus
+  ReviewerStatus,
+  Comment,
+  Like
 };
 
 // const user = {
@@ -54,11 +58,16 @@ const user = {
 //   password: 'secret-4'
 // };
 
-const server = new ApolloServer({
+const schema = makeExecutableSchema({
   typeDefs,
   resolvers,
-  context: { prisma, user }
+  context: { prisma, user },
+  schemaDirectives: {
+    relativeTimeFromNow: RelativeTimeDirective
+  }
 });
+
+const server = new ApolloServer(schema);
 
 server.listen().then(({ url }) => {
   console.log(`🚀 Server ready at ${url}`);

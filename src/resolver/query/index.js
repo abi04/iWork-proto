@@ -20,7 +20,13 @@ async function getUserByEmail(_parent, args) {
   });
 }
 
-async function getIncompletePostsForUserByUserID(_parent, args) {
+async function getPostByID(_parent, args) {
+  return prisma.post({
+    id: args.postID
+  });
+}
+
+async function getIncompletePostsForUser(_parent, args) {
   return prisma
     .user({
       id: args.userID
@@ -32,7 +38,7 @@ async function getIncompletePostsForUserByUserID(_parent, args) {
     });
 }
 
-async function getNotificationPostForUserByUserID(_parent, args) {
+async function getNotificationPostForUser(_parent, args) {
   return prisma
     .user({
       id: args.userID
@@ -45,6 +51,7 @@ module.exports = {
   getAllPosts,
   getUserByID,
   getUserByEmail,
-  getIncompletePostsForUserByUserID,
-  getNotificationPostForUserByUserID
+  getPostByID,
+  getIncompletePostsForUser,
+  getNotificationPostForUser
 };

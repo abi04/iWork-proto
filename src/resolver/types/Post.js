@@ -1,5 +1,13 @@
 const { prisma } = require('../../generated/prisma-client');
 
+async function createdBy(parent) {
+  return prisma
+    .post({
+      id: parent.id
+    })
+    .createdBy();
+}
+
 async function reviewers(parent) {
   return prisma
     .post({
@@ -23,6 +31,7 @@ async function likes(parent) {
 }
 
 module.exports = {
+  createdBy,
   reviewers,
   comments,
   likes

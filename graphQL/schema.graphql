@@ -3,8 +3,9 @@ type Query {
   getAllPosts: [Post]
   getUserByID(userID: String!): User
   getUserByEmail(email: String!): User
-  getIncompletePostsForUserByUserID(userID: String!): [Post]
-  getNotificationPostForUserByUserID(userID: String!): [ReviewerStatus]
+  getPostByID(postID: String!): Post
+  getIncompletePostsForUser(userID: String!): [Post]
+  getNotificationPostForUser(userID: String!): [ReviewerStatus]
 }
 
 type Mutation {
@@ -20,8 +21,6 @@ type User {
   lastName: String!
   email: String!
   profilePictureUrl: String
-  posts: [Post!]
-  postNotification: [ReviewerStatus!]
 }
 
 type ReviewerStatus {
@@ -36,7 +35,6 @@ type Comment {
   comment: String
   createdBy: User!
   createdAt: String
-  post: Post!
 }
 
 type Like {
@@ -44,7 +42,6 @@ type Like {
   like: Boolean
   createdBy: User!
   createdAt: String
-  post: Post!
 }
 
 type Post {

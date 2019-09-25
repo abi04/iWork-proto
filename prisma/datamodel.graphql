@@ -12,6 +12,7 @@ type User {
 type ReviewStatus {
   id: ID! @id
   reviewer: User!
+  isApproved: Boolean! @default(value: false)
   isReviewComplete: Boolean! @default(value: false)
   post: Post!
 }
