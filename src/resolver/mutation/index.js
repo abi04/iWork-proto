@@ -65,9 +65,34 @@ async function createComment(_parent, args, context) {
   });
 }
 
+async function reviewNotification(_parent, args) {
+  const { reviewStatusId, reviewFlag } = args;
+
+  return prisma.updateReviewStatus({
+    data: {
+      isApproved: reviewFlag,
+      isReviewComplete: true
+    },
+    where: { id: reviewStatusId }
+  });
+}
+
+async function completePost(_parent, args) {
+  const { postId: id } = args;
+
+  return prisma.updatePost({
+    data: {
+      isComplete: true
+    },
+    where: { id }
+  });
+}
+
 module.exports = {
   createUser,
   createPost,
   createLike,
-  createComment
+  createComment,
+  reviewNotification,
+  completePost
 };

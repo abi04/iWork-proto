@@ -3,9 +3,12 @@ type Query {
   getAllPosts: [Post]
   getUserByID(userID: String!): User
   getUserByEmail(email: String!): User
+  getUsersBySearchString(search: String!): [User]
   getPostByID(postID: String!): Post
   getIncompletePostsForUser(userID: String!): [Post]
+  getCompletePostsForUser(userID: String!): [Post]
   getNotificationPostForUser(userID: String!): [ReviewerStatus]
+  getPostsHistory(userID: String!, questionSearchString: String!): [Post]
 }
 
 type Mutation {
@@ -13,6 +16,8 @@ type Mutation {
   createPost(input: PostInput!): Post!
   createLike(input: LikeInput!): Like!
   createComment(input: CommentInput!): Comment!
+  reviewNotification(reviewStatusId: ID!, reviewFlag: Boolean!): ReviewerStatus
+  completePost(postId: ID!): Post!
 }
 
 type User {
@@ -26,6 +31,7 @@ type User {
 type ReviewerStatus {
   id: ID!
   reviewer: User!
+  isApproved: Boolean!
   isReviewComplete: Boolean!
   post: Post!
 }
